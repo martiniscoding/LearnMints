@@ -34,7 +34,7 @@ export default function Hero() {
         </p>
 
         <div className="hero__actions">
-          <a className="btn btn--primary" href="#pricing">
+          <a className="btn btn--primary btn--glow" href="#pricing">
             Start teaching free for 14 days
           </a>
           <a className="btn btn--ghost" href="#fees">

@@ -243,6 +243,69 @@ a {
   border-color: #5a7cc8;
 }
 
+/* A single bright arc runs the border of the main call to action, in the
+ * page's own azure, so the one button a visitor is meant to press keeps
+ * catching the eye without moving or changing size. Two layers: the ring
+ * is masked to the 2px band so it reads as a lit border, and a blurred
+ * copy sits behind the button for the bloom it casts on the paper. */
+@property --glow-spin {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.btn--glow {
+  position: relative;
+}
+
+.btn--glow::before,
+.btn--glow::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 9px;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--glow-spin),
+    transparent 0deg,
+    transparent 150deg,
+    color-mix(in srgb, var(--color-azure) 45%, transparent) 250deg,
+    var(--color-azure) 318deg,
+    var(--color-sky) 346deg,
+    #d6e8ff 360deg
+  );
+  animation: glow-spin 3.6s linear infinite;
+}
+
+/* The ring. Masked so the gradient shows only in the 2px frame and never
+ * washes over the label. */
+.btn--glow::before {
+  padding: 2px;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* The bloom. z-index below the button, which paints behind its background
+ * because .btn--glow is positioned but starts no stacking context. */
+.btn--glow::after {
+  z-index: -1;
+  filter: blur(10px);
+  opacity: 0.55;
+  transition: opacity 140ms ease;
+}
+
+.btn--glow:hover::after {
+  opacity: 0.85;
+}
+
+@keyframes glow-spin {
+  to {
+    --glow-spin: 360deg;
+  }
+}
+
 /* ------------------------------------------------------------------ *
  *  Header
  * ------------------------------------------------------------------ */
@@ -1544,6 +1607,11 @@ a {
   }
   .versus__track {
     animation: none;
+  }
+  .btn--glow::before,
+  .btn--glow::after {
+    animation: none;
+    --glow-spin: 270deg;
   }
   .versus__marquee {
     overflow-x: auto;

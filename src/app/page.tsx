@@ -373,7 +373,7 @@ export default function Page() {
               Setting up a course takes about twenty minutes.
             </p>
             <div className="closer__actions">
-              <a className="btn btn--primary" href="#top">
+              <a className="btn btn--primary btn--glow" href="#top">
                 Start teaching free for 14 days
               </a>
             </div>
