@@ -2,41 +2,49 @@
 
 /* ------------------------------------------------------------------ *
  *  LearnMints design tokens
- *  Taken from the mark: a deep navy field, an electric azure that lifts
- *  to sky on dark ground, ice-white paper, and a single settled-green
- *  reserved for money that has actually arrived.
+ *  Warm paper, near-black ink and one settled green. The green is the
+ *  colour of money that has arrived, so it is spent only on the things
+ *  a teacher is meant to act on — never as decoration.
  * ------------------------------------------------------------------ */
 
 @theme {
-  --color-ink: #13266b;
-  --color-ink-deep: #050e3a;
-  --color-ink-soft: #3a4e94;
-  --color-quiet: #606ea6;
-  --color-paper: #eaeef9;
-  --color-paper-raised: #f8faff;
-  --color-rule: #cfd8ee;
-  /* Azure carries emphasis on paper; sky is the same accent on dark ground. */
-  --color-azure: #1f5ae8;
-  --color-azure-deep: #1442b4;
-  --color-sky: #4f9ffb;
-  --color-settled: #0a7a57;
+  --color-ink: #10140f;
+  --color-ink-deep: #161b15;
+  --color-ink-soft: #4b5550;
+  --color-quiet: #6f7a74;
+  --color-paper: #f7f7f4;
+  --color-paper-raised: #ffffff;
+  --color-rule: #e3e3dc;
+  /* Brand carries emphasis on paper; lift is the same green on dark ground. */
+  --color-brand: #387a67;
+  --color-brand-deep: #2a5e4f;
+  --color-brand-wash: #e9f2ef;
+  --color-brand-lift: #8fd1bb;
+  --color-settled: #1f6b4d;
+  /* The two states a fee can be in other than paid. */
+  --color-due: #8a6410;
+  --color-due-wash: #fcf3e3;
+  --color-late: #bf3a2b;
+  --color-late-wash: #fdeceb;
 
-  --font-display: var(--font-anek), ui-sans-serif, system-ui, sans-serif;
-  --font-body: var(--font-plex), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
 
-  /* Weight ladder. Big type is set light; small type earns a little weight. */
-  --wt-air: 250;
-  --wt-light: 300;
+  /* Weight ladder. The page is bold-led: display type is set heavy and
+     running text stays at book weight, with nothing in between. */
   --wt-book: 400;
   --wt-medium: 500;
   --wt-semi: 600;
+  --wt-bold: 700;
+  --wt-black: 800;
 }
 
 :root {
-  --measure: 34rem;
-  --gutter: clamp(1.25rem, 5vw, 3.5rem);
-  --shell: 76rem;
-  --step: clamp(4.5rem, 9vw, 8rem);
+  --measure: 30rem;
+  --gutter: clamp(1.5rem, 5.2vw, 4rem);
+  --shell: 78rem;
+  --step: clamp(3.25rem, 6.4vw, 5.5rem);
+  --bar: 4rem;
 }
 
 * {
@@ -48,25 +56,22 @@ html {
   scroll-behavior: smooth;
   /* The masthead is sticky, so a jump to #pricing has to stop clear of
      it or the heading lands underneath the bar. */
-  scroll-padding-top: 5.25rem;
+  scroll-padding-top: calc(var(--bar) + 1rem);
 }
 
 body {
   margin: 0;
+  /* The hero's phone leans into the gutter on purpose. `clip` keeps that
+     off the scrollbar without making the page a scroll container, which
+     `hidden` would — and which would strand the sticky masthead. */
+  overflow-x: clip;
   background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-body);
-  font-size: 1.0625rem;
-  line-height: 1.65;
-  font-feature-settings: "ss01", "cv05";
+  font-size: 1rem;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  /* Faint ruled-register texture. Visible only as a tint, never as stripes. */
-  background-image: linear-gradient(
-    to bottom,
-    rgba(19, 38, 107, 0.03) 0 1px,
-    transparent 1px 2.25rem
-  );
 }
 
 ::selection {
@@ -79,10 +84,9 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-weight: var(--wt-light);
-  font-variation-settings: "wdth" 100;
-  letter-spacing: -0.018em;
-  line-height: 1.1;
+  font-weight: var(--wt-bold);
+  letter-spacing: -0.03em;
+  line-height: 1.06;
   text-wrap: balance;
   margin: 0;
 }
@@ -96,7 +100,7 @@ a {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-azure);
+  outline: 2px solid var(--color-brand);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -127,13 +131,13 @@ a {
 
 .lede {
   max-width: var(--measure);
-  font-size: 1.1875rem;
-  line-height: 1.62;
+  font-size: 1.0625rem;
+  line-height: 1.6;
   color: var(--color-ink-soft);
 }
 
 .band--ink .lede {
-  color: #a9bee8;
+  color: #b2bdb0;
 }
 
 /* ------------------------------------------------------------------ *
@@ -141,45 +145,38 @@ a {
  * ------------------------------------------------------------------ */
 
 .display {
-  font-size: clamp(2.2rem, 4.3vw, 3.9rem);
-  font-weight: var(--wt-air);
-  font-variation-settings: "wdth" 100;
-  letter-spacing: -0.022em;
-  line-height: 1.1;
-}
-
-@media (min-width: 900px) {
-  .display > span {
-    display: block;
-  }
+  font-size: clamp(2rem, 3.8vw, 3.4rem);
+  font-weight: var(--wt-black);
+  letter-spacing: -0.04em;
+  line-height: 1.05;
 }
 
 /* One azure word per headline, to land the promise rather than decorate. */
 .display em {
   font-style: normal;
-  color: var(--color-azure);
+  color: var(--color-brand);
 }
 
 .h2 {
-  font-size: clamp(1.95rem, 4.1vw, 3.1rem);
-  font-weight: var(--wt-light);
-  letter-spacing: -0.02em;
+  font-size: clamp(1.5rem, 2.7vw, 2.1rem);
+  font-weight: var(--wt-black);
+  letter-spacing: -0.035em;
 }
 
 .h3 {
-  font-size: 1.3125rem;
-  font-weight: var(--wt-medium);
-  letter-spacing: -0.008em;
-  line-height: 1.25;
+  font-size: 1.0625rem;
+  font-weight: var(--wt-bold);
+  letter-spacing: -0.02em;
+  line-height: 1.3;
 }
 
 .section-head {
-  max-width: 44rem;
-  margin-bottom: 3.25rem;
+  max-width: 38rem;
+  margin-bottom: 2.25rem;
 }
 
 .section-head p {
-  margin: 1.1rem 0 0;
+  margin: 0.85rem 0 0;
 }
 
 /* ------------------------------------------------------------------ *
@@ -190,32 +187,37 @@ a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.55rem;
+  gap: 0.5rem;
   font-family: var(--font-display);
-  font-weight: var(--wt-medium);
-  font-variation-settings: "wdth" 100;
-  font-size: 1.0625rem;
-  letter-spacing: -0.002em;
-  padding: 0.95rem 1.65rem;
-  border-radius: 7px;
+  font-weight: var(--wt-bold);
+  font-size: 0.9375rem;
+  letter-spacing: -0.012em;
+  line-height: 1.2;
+  padding: 0.7rem 1.15rem;
+  border-radius: 8px;
   border: 1px solid transparent;
   text-decoration: none;
   cursor: pointer;
   transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
 }
 
+/* The page's own asks, as against the marker in the bar. */
+.btn--lg {
+  font-size: 1rem;
+  padding: 0.85rem 1.4rem;
+}
+
 .btn--primary {
-  background: var(--color-ink);
+  background: var(--color-brand);
   color: var(--color-paper-raised);
-  box-shadow: 0 1px 0 var(--color-ink-deep);
 }
 
 .btn--primary:hover {
-  background: var(--color-ink-deep);
+  background: var(--color-brand-deep);
 }
 
 .btn--ghost {
-  background: transparent;
+  background: var(--color-paper-raised);
   color: var(--color-ink);
   border-color: var(--color-rule);
 }
@@ -225,29 +227,29 @@ a {
 }
 
 .band--ink .btn--primary {
-  background: var(--color-sky);
+  background: var(--color-brand-lift);
   color: var(--color-ink-deep);
-  box-shadow: none;
 }
 
 .band--ink .btn--primary:hover {
-  background: #74b4fd;
+  background: #a6dcc3;
 }
 
 .band--ink .btn--ghost {
+  background: transparent;
   color: var(--color-paper-raised);
-  border-color: #2a3f85;
+  border-color: #384234;
 }
 
 .band--ink .btn--ghost:hover {
-  border-color: #5a7cc8;
+  border-color: #6a7664;
 }
 
-/* A single bright arc runs the border of the main call to action, in the
- * page's own azure, so the one button a visitor is meant to press keeps
- * catching the eye without moving or changing size. Two layers: the ring
- * is masked to the 2px band so it reads as a lit border, and a blurred
- * copy sits behind the button for the bloom it casts on the paper. */
+/* A single bright arc runs the border of the closing call to action, in
+ * the page's own green, so the one button a visitor is meant to press
+ * keeps catching the eye without moving or changing size. Two layers:
+ * the ring is masked to the 2px band so it reads as a lit border, and a
+ * blurred copy sits behind the button for the bloom it casts. */
 @property --glow-spin {
   syntax: "<angle>";
   inherits: false;
@@ -263,22 +265,22 @@ a {
   content: "";
   position: absolute;
   inset: -2px;
-  border-radius: 9px;
+  border-radius: 10px;
   pointer-events: none;
   background: conic-gradient(
     from var(--glow-spin),
     transparent 0deg,
     transparent 150deg,
-    color-mix(in srgb, var(--color-azure) 45%, transparent) 250deg,
-    var(--color-azure) 318deg,
-    var(--color-sky) 346deg,
-    #d6e8ff 360deg
+    color-mix(in srgb, var(--color-brand) 45%, transparent) 250deg,
+    var(--color-brand) 318deg,
+    var(--color-brand-lift) 346deg,
+    #e3f5ea 360deg
   );
   animation: glow-spin 3.6s linear infinite;
 }
 
 /* The ring. Masked so the gradient shows only in the 2px frame and never
- * washes over the label. */
+   washes over the label. */
 .btn--glow::before {
   padding: 2px;
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
@@ -288,7 +290,7 @@ a {
 }
 
 /* The bloom. z-index below the button, which paints behind its background
- * because .btn--glow is positioned but starts no stacking context. */
+   because .btn--glow is positioned but starts no stacking context. */
 .btn--glow::after {
   z-index: -1;
   filter: blur(10px);
@@ -308,151 +310,72 @@ a {
 
 /* ------------------------------------------------------------------ *
  *  Header
+ *  Flat on the paper at the top of the page, so the opening screen
+ *  reads as one uninterrupted sheet and the hero's dashed rule can run
+ *  straight up through it.
  * ------------------------------------------------------------------ */
 
-/* The bar itself carries nothing: it only holds the glass panel away
- * from the top edge so the page is seen passing behind it. */
 .masthead {
   position: sticky;
   top: 0;
   z-index: 40;
-  padding-block: 0.75rem;
-  transition: padding-block 240ms ease;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background-color 200ms ease, border-color 200ms ease;
 }
 
-/* Glass. Mostly paper, so the light text of the dark bands cannot read
- * through, with a lit top edge and a hairline to give the pane a rim. */
+/* Only once the page has moved under it does the bar grow a ground of
+   its own — otherwise text would read straight through the links. */
+.masthead[data-settled="true"] {
+  background: color-mix(in srgb, var(--color-paper) 86%, transparent);
+  backdrop-filter: saturate(1.4) blur(14px);
+  border-bottom-color: var(--color-rule);
+}
+
 .masthead__inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  height: 3.75rem;
-  /* A shade narrower than the shell, so the pane sits in from the text. */
-  max-width: 68rem;
-  margin-inline: auto;
-  padding-inline: 1.25rem 0.75rem;
-  border: 1px solid color-mix(in srgb, var(--color-paper-raised) 60%, transparent);
-  border-radius: 1.25rem;
-  background:
-    linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--color-paper-raised) 88%, transparent),
-      color-mix(in srgb, var(--color-paper) 80%, transparent)
-    );
-  backdrop-filter: saturate(1.6) blur(18px);
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, #fff 70%, transparent),
-    0 1px 2px rgba(5, 14, 58, 0.04),
-    0 10px 30px -12px rgba(5, 14, 58, 0.22);
-  transition:
-    height 240ms ease,
-    border-radius 240ms ease,
-    padding-inline 240ms ease,
-    box-shadow 240ms ease;
-}
-
-/* ------------------------------------------------------------------ *
- *  Header, condensed
- *  Once the page has moved under the pane it pulls in: a shorter bar,
- *  a smaller mark and a tighter radius, so the reading area opens up
- *  and the pane reads as sitting closer to the page it covers.
- * ------------------------------------------------------------------ */
-
-.masthead[data-condensed="true"] {
-  padding-block: 0.4rem;
-}
-
-.masthead[data-condensed="true"] .masthead__inner {
-  height: 3rem;
-  border-radius: 1rem;
-  padding-inline: 1rem 0.6rem;
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, #fff 70%, transparent),
-    0 1px 2px rgba(5, 14, 58, 0.05),
-    0 14px 34px -14px rgba(5, 14, 58, 0.3);
-}
-
-.masthead[data-condensed="true"] .wordmark {
-  font-size: 1.1875rem;
-  gap: 0.44rem;
-}
-
-.masthead[data-condensed="true"] .wordmark__mark {
-  width: 1.5rem;
-  height: 1.5rem;
-}
-
-.masthead[data-condensed="true"] .nav {
-  gap: 1.6rem;
-}
-
-.masthead[data-condensed="true"] .btn {
-  font-size: 0.9062rem;
-  padding: 0.4rem 0.95rem;
-}
-
-@media (max-width: 860px) {
-  .masthead__inner {
-    padding-inline: 1rem 0.65rem;
-  }
-}
-
-/* Smaller than a page button: in the pane it is a marker, not the ask. */
-.masthead .btn {
-  gap: 0.4rem;
-  font-size: 0.9375rem;
-  padding: 0.5rem 1.1rem;
-  border-radius: 999px;
-  transition:
-    background-color 140ms ease,
-    color 140ms ease,
-    border-color 140ms ease,
-    font-size 240ms ease,
-    padding 240ms ease;
-}
-
-.masthead .btn--primary {
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--color-sky) 38%, transparent),
-    0 1px 2px rgba(5, 14, 58, 0.18);
+  gap: 1.5rem;
+  min-height: var(--bar);
 }
 
 .wordmark {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  justify-self: start;
   font-family: var(--font-display);
-  font-weight: var(--wt-medium);
-  font-variation-settings: "wdth" 100;
-  font-size: 1.3125rem;
-  letter-spacing: -0.018em;
+  font-weight: var(--wt-black);
+  font-size: 1.4rem;
+  letter-spacing: -0.045em;
+  color: var(--color-ink);
   text-decoration: none;
-  transition: font-size 240ms ease, gap 240ms ease;
 }
 
-.wordmark i {
-  font-style: normal;
-  color: var(--color-azure-deep);
-}
-
-/* The mark ships with its rounded corners already cut to alpha. */
+/* The square is the brand colour; the leaf is cut out of it. */
 .wordmark__mark {
-  width: 1.75rem;
-  height: 1.75rem;
   flex: none;
-  transition: width 240ms ease, height 240ms ease;
+  width: 2rem;
+  height: 2rem;
+  color: var(--color-brand);
+}
+
+.wordmark__mark svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .nav {
   display: flex;
   align-items: center;
-  gap: 1.9rem;
-  transition: gap 240ms ease;
+  gap: 1.7rem;
 }
 
 .nav a {
-  font-size: 0.9688rem;
+  font-size: 0.9375rem;
+  font-weight: var(--wt-medium);
   color: var(--color-ink-soft);
   text-decoration: none;
   transition: color 140ms ease;
@@ -462,18 +385,54 @@ a {
   color: var(--color-ink);
 }
 
-@media (max-width: 860px) {
+.masthead__end {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  justify-self: end;
+}
+
+.masthead__login {
+  font-size: 0.9375rem;
+  font-weight: var(--wt-semi);
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: color 140ms ease;
+}
+
+.masthead__login:hover {
+  color: var(--color-brand);
+}
+
+/* Smaller than a page button: in the bar it is a marker, not the ask. */
+.masthead .btn {
+  padding: 0.55rem 1.05rem;
+}
+
+@media (max-width: 1040px) {
   .nav {
     display: none;
+  }
+
+  .masthead__inner {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .masthead__login {
+    display: none;
+  }
+
+  .wordmark {
+    font-size: 1.2rem;
   }
 }
 
 /* ------------------------------------------------------------------ *
- *  Hero field
- *  The body is already ruled like a register. Here the vertical rules
- *  land too, so the opening screen reads as a page of the squared
- *  exercise book the tuition is actually taught from. It fades out
- *  above the buttons, leaving them on clean paper.
+ *  Hero
+ *  Two halves divided by one dashed rule: the argument on the left, the
+ *  proof of it on the right.
  * ------------------------------------------------------------------ */
 
 .hero-field {
@@ -481,373 +440,726 @@ a {
   isolation: isolate;
 }
 
-.hero-field::before {
-  content: "";
+/* Pulled up behind the bar by exactly its height, which is why the
+   masthead carries no ground of its own until the page scrolls. */
+.hero-field__rule {
   position: absolute;
-  inset: 0;
   z-index: -1;
+  top: calc(var(--bar) * -1);
+  bottom: 0;
+  left: 50%;
+  width: 1px;
   pointer-events: none;
-  background-image:
-    /* The check: every other square carries the faintest azure. */
-    repeating-conic-gradient(
-      color-mix(in srgb, var(--color-azure) 2.6%, transparent) 0% 25%,
-      transparent 0% 50%
-    ),
-    /* The rules themselves, on the body's own 2.25rem rhythm. */
-    linear-gradient(
-      to right,
-      color-mix(in srgb, var(--color-ink) 8%, transparent) 0 1px,
-      transparent 1px 2.25rem
-    ),
-    linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--color-ink) 8%, transparent) 0 1px,
-      transparent 1px 2.25rem
-    );
-  background-size:
-    4.5rem 4.5rem,
-    2.25rem 2.25rem,
-    2.25rem 2.25rem;
-  /* Anchored to the centre, so the squares sit the same way on every
-     screen and the glowing tiles below can land exactly on them. The
-     check is nudged half a cell so its 4.5rem grid keeps step with the
-     2.25rem rules. */
-  background-position:
-    calc(50% + 1.125rem) 0,
-    50% 0,
-    50% 0;
-  -webkit-mask-image: radial-gradient(
-    78% 72% at 50% 34%,
-    #000 18%,
-    transparent 78%
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-rule) 0 6px,
+    transparent 6px 12px
   );
-  mask-image: radial-gradient(78% 72% at 50% 34%, #000 18%, transparent 78%);
+  background-size: 1px 12px;
 }
-
-/* ------------------------------------------------------------------ *
- *  Hero field — lit tiles
- *  A handful of the azure squares warm up and cool down again, as if
- *  the page were being read one square at a time. Each tile is pinned
- *  to a real cell of the check: `--c` counts cells out from the centre
- *  line, `--r` counts rows down from the top, and only cells where
- *  --c + --r is odd carry the azure tint.
- * ------------------------------------------------------------------ */
-
-.hero-field__tiles {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
-  -webkit-mask-image: radial-gradient(
-    76% 84% at 50% 38%,
-    #000 24%,
-    transparent 86%
-  );
-  mask-image: radial-gradient(76% 84% at 50% 38%, #000 24%, transparent 86%);
-}
-
-.hero-field__tiles i {
-  position: absolute;
-  left: calc(50% - 1.125rem + var(--c) * 2.25rem + 1px);
-  top: calc(var(--r) * 2.25rem + 1px);
-  width: calc(2.25rem - 1px);
-  height: calc(2.25rem - 1px);
-  border-radius: 2px;
-  opacity: 0;
-  background: color-mix(in srgb, var(--color-azure) 14%, transparent);
-  box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--color-azure) 20%, transparent),
-    0 0 1.75rem color-mix(in srgb, var(--color-azure) 18%, transparent);
-  animation: tile-glow var(--dur, 12s) var(--delay, 0s) ease-in-out infinite;
-}
-
-@keyframes tile-glow {
-  0% {
-    opacity: 0;
-    transform: scale(0.94);
-  }
-  9% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  20% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  34% {
-    opacity: 0;
-    transform: scale(0.98);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.94);
-  }
-}
-
-/* ------------------------------------------------------------------ *
- *  Hero
- * ------------------------------------------------------------------ */
 
 .hero {
-  text-align: center;
-  max-width: 68rem;
-  margin-inline: auto;
-  padding-block: clamp(3.5rem, 8vw, 6.5rem) clamp(4rem, 8vw, 7rem);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(1.5rem, 2.8vw, 2.5rem);
+  padding-block: clamp(1.25rem, 2.2vw, 2.25rem) clamp(2.5rem, 5.5vw, 4.5rem);
 }
 
-.hero h1 {
-  margin-inline: auto;
-}
-
-.hero .lede {
-  max-width: 40rem;
-  margin-inline: auto;
+/* The column itself is the measure here — each line below sets its own,
+   and the note is the widest of them. */
+.hero__copy {
+  min-width: 0;
 }
 
 .hero__kicker {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  font-size: 0.9375rem;
-  font-weight: 500;
+  margin: 0 0 1.5rem;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.875rem;
+  font-weight: var(--wt-medium);
   color: var(--color-ink-soft);
   background: var(--color-paper-raised);
   border: 1px solid var(--color-rule);
   border-radius: 999px;
-  padding: 0.4rem 0.9rem 0.4rem 0.6rem;
-  margin: 0 0 1.9rem;
 }
 
-.hero__kicker b {
-  background: color-mix(in srgb, var(--color-azure) 15%, transparent);
-  color: var(--color-ink);
-  font-family: var(--font-display);
-  font-weight: var(--wt-medium);
-  font-size: 0.8125rem;
-  letter-spacing: 0.005em;
-  padding: 0.14rem 0.5rem;
+.hero__dot {
+  flex: none;
+  width: 0.4rem;
+  height: 0.4rem;
   border-radius: 999px;
-  white-space: nowrap;
+  background: var(--color-brand);
 }
 
+/* Held to roughly five words a line, so the headline breaks where the
+   sentence does rather than wherever the column happens to end. */
 .hero h1 {
-  margin-bottom: 1.6rem;
+  max-width: 9.3em;
+  margin: 0 0 1.25rem;
+  text-wrap: wrap;
+}
+
+/* The hero's one paragraph runs a step larger than the lede elsewhere:
+   it is the only prose on the opening screen, so it holds its own
+   against a headline set at 76px. */
+.hero .lede {
+  max-width: 33rem;
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.5;
 }
 
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.75rem;
-  margin-top: 2.25rem;
+  gap: 0.65rem;
+  margin-top: 1.75rem;
 }
 
 .hero__note {
-  margin-top: 1.5rem;
-  font-size: 0.9375rem;
+  margin: 1.15rem 0 0;
+  font-size: 0.875rem;
   color: var(--color-quiet);
 }
 
 .hero__note strong {
   color: var(--color-ink);
-  font-weight: 600;
+  font-weight: var(--wt-bold);
 }
 
-/* A rolling strip closing the hero: what we do, and what the same thing
-   costs a teacher elsewhere. Quiet on purpose — the claim carries, not
-   the styling. */
-.versus {
-  margin-top: clamp(2.75rem, 6vw, 4rem);
-  padding-top: 1.6rem;
-  border-top: 1px solid var(--color-rule);
-}
-
-.versus__claim {
-  margin: 0 0 1.5rem;
-  font-family: var(--font-display);
-  font-weight: var(--wt-medium);
-  font-size: clamp(1.0625rem, 1.6vw, 1.1875rem);
-  letter-spacing: 0.005em;
-  color: var(--color-ink);
-}
-
-.versus__claim em {
-  font-style: normal;
-  color: var(--color-azure);
-}
-
-/* The window the track rolls behind. The mask softens both ends so items
-   arrive and leave instead of being clipped at a hard edge. */
-.versus__marquee {
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent,
-    #000 clamp(2rem, 7%, 5rem),
-    #000 calc(100% - clamp(2rem, 7%, 5rem)),
-    transparent
-  );
-  mask-image: linear-gradient(
-    90deg,
-    transparent,
-    #000 clamp(2rem, 7%, 5rem),
-    #000 calc(100% - clamp(2rem, 7%, 5rem)),
-    transparent
-  );
-}
-
-.versus__track {
+.hero__visual {
   display: flex;
-  width: max-content;
-  animation: versus-roll 52s linear infinite;
+  justify-content: center;
 }
 
-/* Reading one of these is a reason to stop the strip. */
-.versus__marquee:hover .versus__track,
-.versus__marquee:focus-within .versus__track {
-  animation-play-state: paused;
-}
-
-/* Three passes sit side by side, so rolling exactly one of them puts the
-   next pass where the last began and the loop never shows a seam. */
-@keyframes versus-roll {
-  to {
-    transform: translateX(calc(-100% / 3));
+@media (max-width: 960px) {
+  .hero-field__rule {
+    display: none;
   }
-}
 
-.versus__set {
-  display: flex;
-  align-items: center;
-  flex: 0 0 auto;
-  gap: 0;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.versus__set li {
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  padding-inline: 1.5rem;
-  white-space: nowrap;
-}
-
-/* A dot between items rather than a rule — it reads as a pause at this
-   size, where a hairline would read as a table. */
-.versus__set li::after {
-  content: "\00b7";
-  margin-left: 1.5rem;
-  color: var(--color-rule);
-}
-
-.versus__set b {
-  font-family: var(--font-display);
-  font-weight: var(--wt-medium);
-  font-size: 1.0625rem;
-  color: var(--color-ink);
-}
-
-.versus__set span {
-  font-size: 0.875rem;
-  color: var(--color-quiet);
-}
-
-@media (max-width: 560px) {
-  .versus__set li {
-    padding-inline: 1.1rem;
+  .hero {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    gap: 2.5rem;
   }
-  .versus__set li::after {
-    margin-left: 1.1rem;
+
+  .hero__copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-  .versus__set b {
-    font-size: 1rem;
+
+  .hero h1,
+  .hero .lede,
+  .hero__note {
+    max-width: 27rem;
+  }
+
+  .hero__actions {
+    justify-content: center;
+  }
+
+  /* The copy centres; the app on the phone must not go with it. */
+  .hero__visual {
+    text-align: left;
   }
 }
 
 /* ------------------------------------------------------------------ *
- *  Problem ledger
+ *  Hero visual — the teacher's own phone
+ *  A pale slab for the device to sit on, the device, and the receipt
+ *  that lands while the page is being read. The slab and the receipt
+ *  both hang off the right of the phone, so the stage is only ever as
+ *  wide as the phone itself.
  * ------------------------------------------------------------------ */
 
-.ledger {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  grid-template-rows: auto 1fr;
-  column-gap: clamp(2.5rem, 6vw, 5rem);
-  row-gap: 2rem;
-  align-items: start;
+.stage {
+  position: relative;
+  width: 16.75rem;
+  max-width: 100%;
 }
 
-.ledger__intro {
-  grid-column: 1;
-  grid-row: 1;
+.stage__slab {
+  position: absolute;
+  inset: 7% -40% 4% 84%;
+  border-radius: 1.5rem;
+  background: var(--color-brand-wash);
 }
 
-.ledger__list {
-  grid-column: 2;
-  grid-row: 1 / span 2;
+.phone {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  aspect-ratio: 354 / 728;
+  padding: 0.45rem;
+  border-radius: 2.2rem;
+  background: #0b0d0a;
+  box-shadow:
+    0 0 0 1px rgba(11, 13, 10, 0.9),
+    0 1.75rem 3rem -1.25rem rgba(16, 20, 15, 0.4);
 }
 
-.ledger__answer {
-  grid-column: 1;
-  grid-row: 2;
+/* Everything inside the screen is sized in em against this one value,
+   so the whole mock scales with the device instead of drifting. */
+.phone__screen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 1.8rem;
+  background: var(--color-paper-raised);
+  font-size: 0.62rem;
+  line-height: 1.4;
+  color: var(--color-ink);
 }
 
-.ledger__list {
-  list-style: none;
+.phone__status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.15em 1.5em 0.2em;
+  font-size: 0.92em;
+  font-weight: var(--wt-semi);
+}
+
+.phone__signal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-size: 0.9em;
+}
+
+.phone__signal svg {
+  width: 1.15em;
+  height: auto;
+}
+
+.phone__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  padding-inline: 1.35em;
+}
+
+.phone__greet {
+  margin: 1.5em 0 0;
+  font-family: var(--font-display);
+  font-size: 1.72em;
+  font-weight: var(--wt-black);
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+}
+
+.phone__batch {
+  margin: 0.35em 0 0;
+  font-size: 0.95em;
+  color: var(--color-quiet);
+}
+
+/* The one figure the whole page is about, so it gets the only filled
+   green panel on the screen. */
+.phone__collected {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1.35em;
+  padding: 1.55em 1.2em 1.55em;
+  border-radius: 0.95em;
+  background: var(--color-brand);
+  color: var(--color-paper-raised);
+}
+
+.phone__collected span {
+  font-size: 0.9em;
+  color: color-mix(in srgb, #fff 78%, transparent);
+}
+
+.phone__collected b {
+  margin-top: 0.1em;
+  font-family: var(--font-display);
+  font-size: 2.3em;
+  font-weight: var(--wt-black);
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.phone__collected small {
+  margin-top: 0.3em;
+  font-size: 0.82em;
+  color: color-mix(in srgb, #fff 72%, transparent);
+}
+
+.phone__class {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75em;
+  margin-top: 1.5em;
+  padding: 1.05em 0.85em 1.05em 1em;
+  border: 1px solid var(--color-rule);
+  border-radius: 0.85em;
+}
+
+.phone__class b {
+  display: block;
+  font-size: 1.02em;
+  font-weight: var(--wt-bold);
+  letter-spacing: -0.02em;
+}
+
+.phone__class span {
+  font-size: 0.9em;
+  color: var(--color-quiet);
+}
+
+.phone__start {
+  flex: none;
+  padding: 0.62em 1.2em;
+  border-radius: 0.6em;
+  background: var(--color-ink);
+  color: var(--color-paper-raised);
+  font-size: 0.95em;
+  font-weight: var(--wt-bold);
+}
+
+.phone__feehead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 1.9em 0 0.3em;
+}
+
+.phone__feehead b {
+  font-size: 1.02em;
+  font-weight: var(--wt-bold);
+  letter-spacing: -0.02em;
+}
+
+.phone__feehead span {
+  font-size: 0.92em;
+  font-weight: var(--wt-semi);
+  color: var(--color-brand);
+}
+
+/* The list takes whatever height is left, so the rows breathe on a tall
+   device and tighten on a short one rather than overrunning the frame. */
+.phone__fees {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--color-rule);
+  list-style: none;
 }
 
-.ledger__list li {
+.phone__fees li {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 0.75em;
+  min-height: 4.5em;
+  max-height: 5.1em;
+}
+
+.phone__fees li + li {
+  border-top: 1px solid color-mix(in srgb, var(--color-rule) 65%, transparent);
+}
+
+.phone__avatar {
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 1.5rem;
-  align-items: baseline;
-  padding: 1.05rem 0;
-  border-bottom: 1px solid var(--color-rule);
+  flex: none;
+  place-items: center;
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 999px;
+  background: var(--color-brand-wash);
+  color: var(--color-brand);
+  font-size: 0.85em;
+  font-weight: var(--wt-bold);
 }
 
-.ledger__list p {
-  margin: 0;
-  font-size: 1.0625rem;
+.phone__who {
+  flex: 1;
+  min-width: 0;
 }
 
-.ledger__list span {
-  font-family: var(--font-display);
-  font-weight: var(--wt-medium);
-  font-variation-settings: "wdth" 100;
-  font-size: 0.875rem;
+.phone__who b {
+  display: block;
+  font-size: 1em;
+  font-weight: var(--wt-bold);
+  letter-spacing: -0.015em;
+}
+
+.phone__who small {
+  font-size: 0.88em;
   color: var(--color-quiet);
+}
+
+.phone__state {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0.35em 0.7em 0.35em 0.55em;
+  border-radius: 999px;
+  font-size: 0.82em;
+  font-weight: var(--wt-semi);
   white-space: nowrap;
 }
 
-.ledger__answer {
-  padding: 1.4rem 1.5rem;
-  background: var(--color-paper-raised);
-  border-left: 3px solid var(--color-azure);
-  border-radius: 0 8px 8px 0;
+.phone__state svg {
+  width: 1.15em;
+  height: 1.15em;
 }
 
-.ledger__answer p {
-  margin: 0;
-  font-size: 1.0625rem;
+.phone__state[data-state="due"] {
+  background: var(--color-due-wash);
+  color: var(--color-due);
+}
+
+.phone__state[data-state="paid"] {
+  background: var(--color-brand-wash);
+  color: var(--color-settled);
+}
+
+.phone__state[data-state="late"] {
+  background: var(--color-late-wash);
+  color: var(--color-late);
+}
+
+.phone__tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 0.75em 0.5em 1em;
+  border-top: 1px solid var(--color-rule);
+}
+
+.phone__tabs span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25em;
+  font-size: 0.78em;
+  font-weight: var(--wt-medium);
+  color: var(--color-quiet);
+}
+
+.phone__tabs span[data-active="true"] {
+  color: var(--color-brand);
+  font-weight: var(--wt-bold);
+}
+
+.phone__tabs svg {
+  width: 1.6em;
+  height: 1.6em;
+}
+
+.phone__rupee {
+  font-size: 1.35em;
+  font-weight: var(--wt-bold);
+  line-height: 1.18;
+}
+
+.receipt {
+  position: absolute;
+  z-index: 2;
+  top: 17%;
+  right: -6rem;
+  display: flex;
+  gap: 0.7em;
+  width: 12.5rem;
+  padding: 0.9em;
+  border-radius: 0.85rem;
+  font-size: 0.875rem;
+  background: var(--color-paper-raised);
+  box-shadow:
+    0 0 0 1px rgba(16, 20, 15, 0.05),
+    0 1.5rem 2.5rem -1rem rgba(16, 20, 15, 0.25);
+}
+
+.receipt__mark {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.2em;
+  height: 2.2em;
+  border-radius: 0.55em;
+  background: #e9a13b;
+  color: var(--color-paper-raised);
+  font-size: 1.05em;
+  font-weight: var(--wt-bold);
+}
+
+.receipt b {
+  font-size: 1em;
+  font-weight: var(--wt-bold);
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+}
+
+.receipt p {
+  margin: 0.2em 0 0;
+  font-size: 0.92em;
+  line-height: 1.35;
+  color: var(--color-quiet);
+}
+
+/* On a narrow screen the stage is centred, so the slab and the receipt
+   have to pull their overhang back in rather than push the page wide.
+   The screen's base size comes down with the frame — it is what the app
+   inside is measured in, so the two have to move together or the
+   contents outgrow the device. */
+@media (max-width: 520px) {
+  .stage {
+    width: 15.5rem;
+  }
+
+  .phone__screen {
+    font-size: 0.575rem;
+  }
+
+  .stage__slab {
+    inset: 7% -14% 4% 88%;
+  }
+
+  .receipt {
+    right: -2.75rem;
+    width: 8.5rem;
+    font-size: 0.675rem;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ *  Comparison table
+ * ------------------------------------------------------------------ */
+
+/* The move, as a table: what a tutor gets here beside what the same
+   thing costs elsewhere. The heading sits left, its one line of context
+   right, so the eye arrives at the table already knowing the columns. */
+.compare-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: clamp(2.5rem, 6vw, 5rem);
+  align-items: start;
+  margin-bottom: 2rem;
+}
+
+.compare-head .h2 {
+  max-width: 13ch;
+}
+
+.compare-head p {
+  margin: 0.5rem 0 0;
+}
+
+.compare {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--color-rule);
+  border-radius: 14px;
+  /* Clips the header tint and the row rules to the rounded corners. */
+  overflow: hidden;
+  text-align: left;
+}
+
+.compare th,
+.compare td {
+  width: 50%;
+  padding: 0.95rem 1.4rem;
+}
+
+.compare th {
+  font-family: var(--font-display);
+  font-weight: var(--wt-medium);
+  font-size: 0.875rem;
+  letter-spacing: 0.01em;
+  color: var(--color-ink);
+  background: var(--color-paper-raised);
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.compare tbody tr + tr td {
+  border-top: 1px solid var(--color-rule);
+}
+
+.compare td {
+  font-size: 1rem;
+  vertical-align: baseline;
+}
+
+/* Ours is the line being claimed, so it carries the display face and the
+   weight; theirs is reported, and stays quiet. */
+.compare td:first-child {
+  font-family: var(--font-display);
+  font-weight: var(--wt-medium);
+  color: var(--color-ink);
+}
+
+.compare td:last-child {
+  color: var(--color-ink-soft);
+}
+
+/* Both marks hang in the same gutter, so the two columns start level. */
+.compare__yes,
+.compare__no {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 1.625rem;
+  margin-left: -1.625rem;
+  vertical-align: middle;
+}
+
+.compare__yes {
+  color: var(--color-settled);
+}
+
+/* An en dash drawn as a rule: at this size a glyph sits off the baseline
+   of the line it marks. */
+.compare__no::before {
+  content: "";
+  width: 0.75rem;
+  height: 1.5px;
+  border-radius: 1px;
+  background: var(--color-quiet);
+}
+
+.compare td:first-child,
+.compare td:last-child {
+  padding-left: 2.9rem;
 }
 
 @media (max-width: 900px) {
-  .ledger {
+  .compare-head {
     grid-template-columns: 1fr;
-    grid-template-rows: none;
-    row-gap: 2.25rem;
+    row-gap: 1.1rem;
   }
-  .ledger__intro,
-  .ledger__list,
-  .ledger__answer {
-    grid-column: 1;
-    grid-row: auto;
+  .compare-head .h2 {
+    max-width: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .compare th,
+  .compare td {
+    padding: 0.8rem 0.95rem;
+  }
+  .compare td:first-child,
+  .compare td:last-child {
+    padding-left: 2.6rem;
+  }
+  .compare__yes,
+  .compare__no {
+    width: 1.5rem;
+    margin-left: -1.5rem;
+  }
+  .compare td {
+    font-size: 0.9375rem;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ *  Admin hours
+ *  The one warm colour on the page, kept for time a teacher loses.
+ *  Money that arrives is green, work that leaks is amber.
+ * ------------------------------------------------------------------ */
+
+.hours {
+  display: grid;
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+  column-gap: clamp(2.5rem, 6vw, 5rem);
+  row-gap: 2rem;
+  align-items: center;
+}
+
+.hours__intro .lede + .lede {
+  margin-top: 0.9rem;
+}
+
+.hours__intro .lede:first-of-type {
+  margin-top: 1.1rem;
+}
+
+.hours__card {
+  background: var(--color-paper-raised);
+  border: 1px solid var(--color-rule);
+  border-radius: 14px;
+  padding: clamp(1.1rem, 2.4vw, 1.65rem);
+  box-shadow: 0 1px 2px rgba(16, 20, 15, 0.04);
+}
+
+.hours__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.hours__list li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 1.25rem;
+  row-gap: 0.55rem;
+  align-items: baseline;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.hours__list li:first-child {
+  padding-top: 0.35rem;
+}
+
+.hours__list p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.35;
+}
+
+.hours__list span {
+  font-family: var(--font-display);
+  font-weight: var(--wt-semi);
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+/* The bar sits under both columns, so it measures the whole row. */
+.hours__list i {
+  grid-column: 1 / -1;
+  display: block;
+  height: 6px;
+  border-radius: 99px;
+  background: rgba(16, 20, 15, 0.07);
+}
+
+.hours__list i::before {
+  content: "";
+  display: block;
+  width: var(--fill);
+  height: 100%;
+  border-radius: inherit;
+  background: #e9a13b;
+}
+
+.hours__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1.5rem;
+  margin: 0;
+  padding-top: 1.05rem;
+  font-family: var(--font-display);
+  font-weight: var(--wt-semi);
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 900px) {
+  .hours {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -863,13 +1175,13 @@ a {
 }
 
 .spread + .spread {
-  margin-top: clamp(4rem, 8vw, 7rem);
-  padding-top: clamp(4rem, 8vw, 7rem);
+  margin-top: clamp(2.75rem, 5.5vw, 4.75rem);
+  padding-top: clamp(2.75rem, 5.5vw, 4.75rem);
   border-top: 1px solid var(--color-rule);
 }
 
 .band--ink .spread + .spread {
-  border-top-color: #1b2d6b;
+  border-top-color: #2b3329;
 }
 
 .spread--flip .spread__visual {
@@ -877,36 +1189,36 @@ a {
 }
 
 .spread h3 {
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
-  margin-bottom: 1rem;
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  margin-bottom: 0.8rem;
 }
 
 .spread p {
-  max-width: 32rem;
+  max-width: 29rem;
   color: var(--color-ink-soft);
   margin: 0;
 }
 
 .band--ink .spread p {
-  color: #a9bee8;
+  color: #b2bdb0;
 }
 
 .spread__tag {
   display: inline-block;
   font-size: 0.8125rem;
   font-weight: 500;
-  color: var(--color-azure-deep);
+  color: var(--color-brand-deep);
   margin-bottom: 0.9rem;
 }
 
 .band--ink .spread__tag {
-  color: var(--color-sky);
+  color: var(--color-brand-lift);
 }
 
 @media (max-width: 880px) {
   .spread {
     grid-template-columns: 1fr;
-    gap: 2.25rem;
+    gap: 1.75rem;
   }
   .spread--flip .spread__visual {
     order: 0;
@@ -919,12 +1231,12 @@ a {
   background: var(--color-paper-raised);
   border: 1px solid var(--color-rule);
   border-radius: 12px;
-  padding: 1.35rem;
+  padding: 1.1rem;
 }
 
 .band--ink .quiz {
-  background: #0a1850;
-  border-color: #1c3179;
+  background: #13170f;
+  border-color: #2b3329;
 }
 
 .quiz__src {
@@ -939,8 +1251,8 @@ a {
 }
 
 .band--ink .quiz__src {
-  border-bottom-color: #1c3179;
-  color: #7e92cc;
+  border-bottom-color: #2b3329;
+  color: #8d998a;
 }
 
 .quiz__src b {
@@ -949,7 +1261,7 @@ a {
 }
 
 .band--ink .quiz__src b {
-  color: #e7f0ff;
+  color: #eef3ec;
 }
 
 .quiz__q {
@@ -979,8 +1291,8 @@ a {
 }
 
 .band--ink .quiz__opts li {
-  border-color: #1c3179;
-  color: #a9bee8;
+  border-color: #2b3329;
+  color: #b2bdb0;
 }
 
 .quiz__opts li[data-correct] {
@@ -991,8 +1303,8 @@ a {
 }
 
 .band--ink .quiz__opts li[data-correct] {
-  color: #3fc99a;
-  border-color: #1b7f5e;
+  color: #8ccfae;
+  border-color: #2f6b52;
 }
 
 .quiz__key {
@@ -1017,7 +1329,7 @@ a {
 }
 
 .band--ink .quiz__foot {
-  color: #7e92cc;
+  color: #8d998a;
 }
 
 /* --- watermark visual --- */
@@ -1028,22 +1340,22 @@ a {
   border-radius: 12px;
   overflow: hidden;
   background:
-    radial-gradient(120% 90% at 20% 0%, #2a6ef2 0%, transparent 62%),
-    linear-gradient(160deg, #11297e 0%, #050e3a 100%);
-  border: 1px solid #1c3179;
+    radial-gradient(120% 90% at 20% 0%, #2f7d5f 0%, transparent 62%),
+    linear-gradient(160deg, #1b3a2d 0%, #0d120c 100%);
+  border: 1px solid #2b3329;
   display: grid;
   place-items: center;
 }
 
 .wmark__play {
-  width: 3.4rem;
-  height: 3.4rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 50%;
   background: rgba(231, 240, 255, 0.16);
   border: 1px solid rgba(231, 240, 255, 0.32);
   display: grid;
   place-items: center;
-  color: #e7f0ff;
+  color: #eef3ec;
 }
 
 .wmark__stamp {
@@ -1088,9 +1400,9 @@ a {
   right: 0;
   bottom: 0;
   padding: 0.7rem 0.9rem;
-  background: linear-gradient(to top, rgba(5, 14, 58, 0.92), transparent);
+  background: linear-gradient(to top, rgba(11, 13, 10, 0.92), transparent);
   font-size: 0.8125rem;
-  color: #a9bee8;
+  color: #b2bdb0;
 }
 
 /* ------------------------------------------------------------------ *
@@ -1115,32 +1427,31 @@ a {
   background: var(--color-paper-raised);
   border: 1px solid var(--color-rule);
   border-radius: 14px;
-  padding: clamp(1.5rem, 3vw, 2.1rem);
+  padding: clamp(1.15rem, 2.4vw, 1.65rem);
 }
 
 .calc__label {
   display: block;
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   color: var(--color-quiet);
   margin-bottom: 0.4rem;
 }
 
 .calc__amount {
   font-family: var(--font-display);
-  font-weight: var(--wt-light);
-  font-variation-settings: "wdth" 100;
-  font-size: clamp(2.1rem, 5vw, 2.9rem);
+  font-weight: var(--wt-bold);
+  font-size: clamp(1.7rem, 4vw, 2.25rem);
   letter-spacing: -0.025em;
   line-height: 1;
   font-variant-numeric: tabular-nums;
-  margin-bottom: 1.35rem;
+  margin-bottom: 1rem;
 }
 
 .calc input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 2.25rem;
+  height: 1.9rem;
   background: transparent;
   cursor: grab;
   margin: 0;
@@ -1176,13 +1487,13 @@ a {
 .calc input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 1.55rem;
-  height: 1.55rem;
-  margin-top: -0.6rem;
+  width: 1.35rem;
+  height: 1.35rem;
+  margin-top: -0.5rem;
   border-radius: 50%;
   background: var(--color-ink);
   border: 3px solid var(--color-paper-raised);
-  box-shadow: 0 2px 8px -2px rgba(5, 14, 58, 0.5);
+  box-shadow: 0 2px 8px -2px rgba(11, 13, 10, 0.5);
 }
 
 .calc input[type="range"]::-moz-range-thumb {
@@ -1207,7 +1518,7 @@ a {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1px;
-  margin-top: 1.75rem;
+  margin-top: 1.35rem;
   background: var(--color-rule);
   border: 1px solid var(--color-rule);
   border-radius: 10px;
@@ -1216,7 +1527,7 @@ a {
 
 .calc__cell {
   background: #fff;
-  padding: 1.1rem 1.15rem;
+  padding: 0.9rem 0.95rem;
 }
 
 .calc__cell-label {
@@ -1234,15 +1545,14 @@ a {
   display: block;
   font-family: var(--font-display);
   font-weight: var(--wt-book);
-  font-variation-settings: "wdth" 100;
-  font-size: clamp(1.5rem, 3.6vw, 2rem);
+  font-size: clamp(1.25rem, 3vw, 1.6rem);
   letter-spacing: -0.02em;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
 
 .calc__cell--them strong {
-  color: #c0392f;
+  color: #bf3a2b;
 }
 
 .calc__cell--us strong {
@@ -1257,8 +1567,8 @@ a {
 }
 
 .calc__verdict {
-  margin: 1.1rem 0 0;
-  font-size: 0.9375rem;
+  margin: 0.9rem 0 0;
+  font-size: 0.875rem;
   color: var(--color-ink-soft);
 }
 
@@ -1270,43 +1580,174 @@ a {
 
 /* ------------------------------------------------------------------ *
  *  Included list
+ *  A ruled grid rather than cards: the hairlines do the separating, so
+ *  six ordinary features can sit on the page without six boxes.
  * ------------------------------------------------------------------ */
+
+.included-head {
+  display: grid;
+  gap: 1rem clamp(1.25rem, 4vw, 3rem);
+  margin-bottom: 2.25rem;
+}
+
+@media (min-width: 900px) {
+  .included-head {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+    align-items: start;
+  }
+}
+
+.included-head p {
+  margin: 0;
+  max-width: 24rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-quiet);
+}
+
+@media (min-width: 900px) {
+  /* Drops the note to the headline's first baseline rather than its cap. */
+  .included-head p {
+    margin-top: 0.55rem;
+  }
+}
 
 .included {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-  column-gap: clamp(1.5rem, 4vw, 3.25rem);
+  grid-template-columns: minmax(0, 1fr);
   border-top: 1px solid var(--color-rule);
 }
 
 .included > div {
-  padding: 1.6rem 0;
+  padding: 1.6rem 0 1.8rem;
   border-bottom: 1px solid var(--color-rule);
 }
 
+@media (min-width: 640px) {
+  .included {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .included > div {
+    padding-inline: clamp(1.25rem, 3vw, 2.5rem);
+    border-inline-start: 1px solid var(--color-rule);
+  }
+
+  .included > div:nth-child(2n + 1) {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+  }
+
+  .included > div:nth-child(2n) {
+    padding-inline-end: 0;
+  }
+}
+
+@media (min-width: 900px) {
+  .included {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .included > div:nth-child(2n + 1) {
+    padding-inline-start: clamp(1.25rem, 3vw, 2.5rem);
+    border-inline-start: 1px solid var(--color-rule);
+  }
+
+  .included > div:nth-child(2n) {
+    padding-inline-end: clamp(1.25rem, 3vw, 2.5rem);
+  }
+
+  .included > div:nth-child(3n + 1) {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+  }
+
+  .included > div:nth-child(3n) {
+    padding-inline-end: 0;
+  }
+}
+
+/* The one green on paper, kept to a tint so the tiles read as quiet. */
+.included__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-bottom: 1.05rem;
+  border-radius: 9px;
+  background: rgba(10, 122, 87, 0.09);
+  color: var(--color-settled);
+}
+
 .included h3 {
-  font-size: 1.0625rem;
+  font-size: 1rem;
+  font-weight: var(--wt-semi);
   margin-bottom: 0.4rem;
 }
 
 .included p {
   margin: 0;
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   color: var(--color-quiet);
-  line-height: 1.55;
+  line-height: 1.6;
 }
 
 /* ------------------------------------------------------------------ *
  *  Pricing
  * ------------------------------------------------------------------ */
 
-/* Three terms side by side. The cards are cut from the dark band they
- * sit in rather than laid on it, so the one we steer to can simply be
- * the lit one instead of the loud one. */
+/* Three terms laid on plain white rather than cut from the dark band,
+ * so the only colour in the block is the settled green on the term we
+ * steer teachers to. */
+.pricing {
+  --plan-line: #e3e7e5;
+  --plan-green: #2d7160;
+  --plan-ink: #16302a;
+  --plan-quiet: #5c6b66;
+  background: #ffffff;
+  color: var(--plan-ink);
+}
+
+/* Heading on the left, the terms in one paragraph on the right, both
+ * set from the same top line. */
+.pricing__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: start;
+  margin-bottom: 2.25rem;
+}
+
+@media (max-width: 880px) {
+  .pricing__head {
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+  }
+}
+
+.pricing__title {
+  max-width: 19ch;
+  font-size: clamp(1.7rem, 3.1vw, 2.35rem);
+  font-weight: var(--wt-semi);
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  /* Let the first line run long rather than split the heading in half. */
+  text-wrap: pretty;
+}
+
+.pricing__lede {
+  margin: 0.3rem 0 0;
+  max-width: 30rem;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--plan-quiet);
+}
+
 .plans {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.25rem;
+  gap: 1rem;
   align-items: stretch;
 }
 
@@ -1318,90 +1759,78 @@ a {
 }
 
 .plan {
-  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-  padding: 1.75rem 1.6rem 1.6rem;
-  border: 1px solid #1c3179;
-  border-radius: 1rem;
-  background: #0a1850;
+  padding: 1.3rem 1.25rem 1.35rem;
+  border: 1px solid var(--plan-line);
+  border-radius: 12px;
+  background: #ffffff;
 }
 
+/* The flagged card gains a green rule rather than a different size, so
+ * the inner padding drops by the extra border it carries. */
 .plan[data-featured="true"] {
-  border-color: #3a62c9;
-  background: linear-gradient(to bottom, #11235f, #0a1850);
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--color-sky) 30%, transparent),
-    0 18px 40px -20px rgba(0, 0, 0, 0.6);
+  border: 2px solid var(--plan-green);
+  padding: 1.25rem 1.2rem 1.3rem;
+  box-shadow: 0 18px 40px -28px rgba(22, 48, 42, 0.45);
+}
+
+.plan__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  min-height: 1.6rem;
 }
 
 .plan__term {
-  font-family: var(--font-display);
-  font-weight: var(--wt-medium);
-  font-size: 1.125rem;
-  letter-spacing: -0.008em;
   margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--wt-semi);
+  font-size: 1rem;
+  letter-spacing: -0.005em;
 }
 
-/* Pinned to the card's top edge, so a term keeps its own line whether
- * or not the card is flagged. */
 .plan__flag {
-  position: absolute;
-  top: -0.6rem;
-  right: 1.6rem;
   font-family: var(--font-display);
-  font-weight: var(--wt-medium);
-  font-size: 0.78125rem;
-  letter-spacing: 0.01em;
-  color: var(--color-ink-deep);
-  background: var(--color-sky);
+  font-weight: var(--wt-semi);
+  font-size: 0.75rem;
+  letter-spacing: 0.005em;
+  color: #4a3406;
+  background: #f6b73f;
   border-radius: 999px;
-  padding: 0.16rem 0.6rem;
+  padding: 0.25rem 0.65rem;
 }
 
 .plan__tag {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.25rem;
-  margin-top: 0.5rem;
-}
-
-.plan__rupee {
+  margin: 0.85rem 0 0;
   font-family: var(--font-display);
-  font-weight: var(--wt-light);
-  font-size: 1.5rem;
-  line-height: 1.35;
-  color: var(--color-sky);
-}
-
-.plan__num {
-  font-family: var(--font-display);
-  font-weight: var(--wt-air);
-  font-variation-settings: "wdth" 100;
-  font-size: clamp(2.75rem, 5.5vw, 3.5rem);
-  letter-spacing: -0.03em;
+  font-weight: 700;
+  font-size: clamp(1.95rem, 3.6vw, 2.4rem);
+  letter-spacing: -0.035em;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
 
 .plan__rate {
-  margin: 0.45rem 0 0;
-  font-size: 1rem;
-  color: #bccfee;
+  margin: 0.75rem 0 0;
+  font-size: 0.875rem;
+  color: var(--plan-quiet);
 }
 
-/* The saving carries the argument for the longer term, so it is the
- * one line in the card that is lit. */
+/* The saving carries the argument for the longer term, so it is the one
+ * line in the card that is lit. */
 .plan__save {
-  margin: 0.3rem 0 1.5rem;
-  font-size: 0.9375rem;
-  color: #8fa6dd;
+  margin: 0.35rem 0 0;
+  font-size: 0.875rem;
+  font-weight: var(--wt-medium);
+  color: var(--plan-green);
 }
 
-.plan[data-featured="true"] .plan__save,
-.plan:nth-child(2) .plan__save {
-  color: var(--color-sky);
+/* Auto margin pulls every button to the same baseline whether or not the
+ * card carries a saving; the line above it keeps the minimum gap. */
+.plan > :nth-last-child(2) {
+  margin-bottom: 1.5rem;
 }
 
 .plan .btn {
@@ -1409,35 +1838,50 @@ a {
   width: 100%;
 }
 
-.plans__foot {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: clamp(2rem, 5vw, 4rem);
-  margin-top: 3rem;
-  padding-top: 2.5rem;
-  border-top: 1px solid #1b2d6b;
+.pricing .btn {
+  font-size: 0.9375rem;
+  font-weight: var(--wt-semi);
+  padding: 0.7rem 1.15rem;
+  border-radius: 8px;
 }
 
-@media (max-width: 880px) {
-  .plans__foot {
-    grid-template-columns: 1fr;
-    gap: 1.75rem;
-  }
+.pricing .btn--ghost {
+  background: #ffffff;
+  color: var(--plan-ink);
+  border-color: var(--plan-line);
 }
 
-.plans__note {
-  margin: 0;
-  font-size: 1.0625rem;
-  color: #a9bee8;
+.pricing .btn--ghost:hover {
+  border-color: var(--plan-green);
+  color: var(--plan-green);
 }
 
+.pricing .btn--primary {
+  background: var(--plan-green);
+  color: #ffffff;
+  box-shadow: none;
+}
+
+.pricing .btn--primary:hover {
+  background: #245c4e;
+}
+
+/* Everything every plan carries, in one box under the three cards. */
 .price__list {
   list-style: none;
-  margin: 0;
-  padding: 0;
+  margin: 1rem 0 0;
+  padding: 1.15rem 1.25rem;
+  border: 1px solid var(--plan-line);
+  border-radius: 12px;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.7rem 1.5rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem 1.25rem;
+}
+
+@media (max-width: 1000px) {
+  .price__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 560px) {
@@ -1448,25 +1892,62 @@ a {
 
 .price__list li {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.6rem;
   align-items: flex-start;
-  font-size: 1rem;
-  color: #bccfee;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--plan-ink);
 }
 
 .price__list svg {
   flex: none;
-  margin-top: 0.3rem;
-  color: var(--color-sky);
+  margin-top: 0.22rem;
+  color: var(--plan-green);
+}
+
+.plans__note {
+  margin: 1.1rem 0 0;
+  font-size: 0.875rem;
+  color: var(--plan-quiet);
 }
 
 /* ------------------------------------------------------------------ *
  *  FAQ
  * ------------------------------------------------------------------ */
 
+/* Heading on the left, the questions themselves on the right, so the
+ * section reads as a conversation rather than a wall of rules. */
 .faq {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+  gap: clamp(2.5rem, 6vw, 5rem);
+  align-items: start;
+}
+
+.faq__head {
+  position: sticky;
+  top: 6rem;
+}
+
+.faq__ask {
+  margin: 0.9rem 0 0;
+  max-width: 22rem;
+  color: var(--color-ink-soft);
+}
+
+.faq__list {
   border-top: 1px solid var(--color-rule);
-  max-width: 50rem;
+}
+
+@media (max-width: 880px) {
+  .faq {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .faq__head {
+    position: static;
+  }
 }
 
 .faq details {
@@ -1477,14 +1958,13 @@ a {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1.5rem;
-  padding: 1.3rem 0;
+  gap: 1.25rem;
+  padding: 1.05rem 0;
   cursor: pointer;
   list-style: none;
   font-family: var(--font-display);
   font-weight: var(--wt-medium);
-  font-variation-settings: "wdth" 100;
-  font-size: 1.1rem;
+  font-size: 1rem;
   letter-spacing: -0.006em;
   line-height: 1.35;
 }
@@ -1493,26 +1973,29 @@ a {
   display: none;
 }
 
+/* A plus that turns into a close cross on the open question. */
 .faq summary::after {
   content: "";
   flex: none;
-  width: 0.72rem;
-  height: 0.72rem;
-  margin-top: 0.4rem;
-  border-right: 2px solid var(--color-quiet);
-  border-bottom: 2px solid var(--color-quiet);
-  transform: rotate(45deg);
+  width: 0.85rem;
+  height: 0.85rem;
+  margin-top: 0.28rem;
+  background:
+    linear-gradient(var(--color-quiet), var(--color-quiet)) center / 100% 1.6px
+      no-repeat,
+    linear-gradient(var(--color-quiet), var(--color-quiet)) center / 1.6px 100%
+      no-repeat;
   transition: transform 180ms ease;
 }
 
 .faq details[open] summary::after {
-  transform: rotate(-135deg);
+  transform: rotate(45deg);
 }
 
 .faq__a {
   margin: 0;
-  padding: 0 0 1.4rem;
-  max-width: 44rem;
+  padding: 0 0 1.15rem;
+  max-width: 40rem;
   color: var(--color-ink-soft);
 }
 
@@ -1520,42 +2003,113 @@ a {
  *  Closing call + footer
  * ------------------------------------------------------------------ */
 
+/* The last word on the page sits on its own green field — the one colour
+ * the site keeps for money that has arrived — with the promise on the
+ * left and the single thing to press on the right. */
 .closer {
-  text-align: center;
   display: grid;
-  justify-items: center;
-  gap: 1.35rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1.75rem 2.5rem;
+  padding: clamp(2.1rem, 4.5vw, 3.75rem) clamp(1.4rem, 3.6vw, 3rem);
+  border-radius: clamp(18px, 2vw, 26px);
+  color: #f2fbf7;
+  background: radial-gradient(128% 160% at 6% 0%, #2a8268 0%, #136049 70%);
+}
+
+.closer .h2 {
+  color: inherit;
+  max-width: 15ch;
 }
 
 .closer p {
-  max-width: 36rem;
-  margin: 0;
+  max-width: 31rem;
+  margin: 1rem 0 0;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: #c6e4d8;
 }
 
-.closer__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
+.closer__cta {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  margin-top: 0.5rem;
+  font-family: var(--font-display);
+  font-weight: var(--wt-semi);
+  font-size: 1rem;
+  letter-spacing: -0.002em;
+  padding: 0.85rem 1.6rem;
+  border-radius: 10px;
+  background: var(--color-paper-raised);
+  color: #0d5b45;
+  text-decoration: none;
+  box-shadow: 0 10px 26px rgba(4, 38, 28, 0.22);
+  transition: transform 140ms ease, box-shadow 140ms ease, background-color 140ms ease;
+}
+
+.closer__cta:hover {
+  background: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgba(4, 38, 28, 0.28);
+}
+
+.closer__cta:active {
+  transform: translateY(0);
+}
+
+@media (min-width: 700px) {
+  .closer .h2 span {
+    display: block;
+  }
+}
+
+@media (max-width: 860px) {
+  .closer {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: start;
+  }
+  .closer .h2 {
+    max-width: none;
+  }
 }
 
 .foot {
-  padding-block: 2.75rem;
-  border-top: 1px solid var(--color-rule);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.25rem 2.5rem;
+  padding-block: 2rem 2.5rem;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  font-size: 0.9375rem;
+  gap: 1rem 2rem;
+  font-size: 0.875rem;
   color: var(--color-quiet);
 }
 
+.wordmark--foot {
+  font-size: 1.0625rem;
+  color: var(--color-ink);
+}
+
+.foot__line {
+  margin: 0;
+  text-align: center;
+}
+
 .foot nav {
+  justify-self: end;
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 1.25rem;
+}
+
+@media (max-width: 860px) {
+  .foot {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 1.5rem;
+  }
+  .foot nav {
+    justify-self: center;
+    justify-content: center;
+  }
 }
 
 .foot a {
@@ -1571,25 +2125,23 @@ a {
  * ------------------------------------------------------------------ */
 
 @media (max-width: 560px) {
-  .lede {
-    font-size: 1.0625rem;
+  .lede,
+  .hero .lede {
+    font-size: 1rem;
   }
   .hero__actions {
     flex-direction: column;
     align-items: stretch;
   }
   .hero__kicker {
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
   }
   .masthead .btn {
-    padding: 0.45rem 0.95rem;
-    font-size: 0.9062rem;
+    padding: 0.45rem 0.85rem;
+    font-size: 0.875rem;
   }
   .masthead__inner {
-    height: 3.5rem;
-  }
-  .masthead[data-condensed="true"] .masthead__inner {
-    height: 2.875rem;
+    min-height: 3.5rem;
   }
 }
 
@@ -1601,23 +2153,10 @@ a {
   .wmark__stamp--b {
     animation: none !important;
   }
-  .hero-field__tiles i {
-    animation: none;
-    opacity: 0.5;
-  }
-  .versus__track {
-    animation: none;
-  }
   .btn--glow::before,
   .btn--glow::after {
     animation: none;
     --glow-spin: 270deg;
-  }
-  .versus__marquee {
-    overflow-x: auto;
-  }
-  .versus__set[aria-hidden="true"] {
-    display: none;
   }
   *,
   *::before,

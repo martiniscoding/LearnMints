@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Anek_Latin, IBM_Plex_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import {
   site,
   keywords,
@@ -10,18 +10,13 @@ import {
 } from "@/lib/site";
 import "./globals.css";
 
-const anek = Anek_Latin({
+/* One variable family carries the whole page: the headline needs 800 and
+ * the running text 400, and keeping them in the same typeface is what
+ * makes the heavy display read as emphasis rather than as another font. */
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  axes: ["wdth"],
   display: "swap",
-  variable: "--font-anek",
-});
-
-const plex = IBM_Plex_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  display: "swap",
-  variable: "--font-plex",
+  variable: "--font-jakarta",
 });
 
 export const metadata: Metadata = {
@@ -81,6 +76,7 @@ export const metadata: Metadata = {
   manifest: "/manifest.webmanifest",
   icons: {
     icon: [
+      { url: "/icon.svg", type: "image/svg+xml", sizes: "any" },
       { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
       { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
@@ -104,8 +100,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#eaeef9" },
-    { media: "(prefers-color-scheme: dark)", color: "#050e3a" },
+    { media: "(prefers-color-scheme: light)", color: "#f7f7f4" },
+    { media: "(prefers-color-scheme: dark)", color: "#10140f" },
   ],
 };
 
@@ -120,7 +116,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en-IN" className={`${anek.variable} ${plex.variable}`}>
+    <html lang="en-IN" className={jakarta.variable}>
       <head>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <script

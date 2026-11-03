@@ -31,13 +31,13 @@ export default async function OgImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          backgroundColor: "#050e3a",
-          // The mark's own fall of light: azure in the corner, navy below.
+          backgroundColor: "#10140f",
+          // The mark's own fall of light: green in the corner, ink below.
           backgroundImage:
-            "linear-gradient(135deg, #1b48c8 0%, #0d2a86 26%, #050e3a 62%)",
+            "linear-gradient(135deg, #2c6454 0%, #1b3b31 26%, #10140f 62%)",
           padding: "64px 72px",
           fontFamily: "Anek Text",
-          color: "#e7f0ff",
+          color: "#eef3ef",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 15 }}>
@@ -65,7 +65,7 @@ export default async function OgImage() {
               marginTop: 24,
               fontSize: 29,
               lineHeight: 1.45,
-              color: "#8fa6dd",
+              color: "#9db5aa",
               maxWidth: 800,
             }}
           >
@@ -80,8 +80,8 @@ export default async function OgImage() {
               display: "flex",
               alignItems: "center",
               fontFamily: "Anek Display",
-              background: "#4f9ffb",
-              color: "#050e3a",
+              background: "#8fd1bb",
+              color: "#10140f",
               fontSize: 29,
               padding: "11px 22px",
               borderRadius: 8,
@@ -89,7 +89,7 @@ export default async function OgImage() {
           >
             ₹24,000 a year, flat
           </div>
-          <div style={{ display: "flex", fontSize: 25, color: "#6d84c0" }}>
+          <div style={{ display: "flex", fontSize: 25, color: "#88a498" }}>
             No commission on your fees
           </div>
         </div>
