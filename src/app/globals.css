@@ -2121,6 +2121,462 @@ a {
 }
 
 /* ------------------------------------------------------------------ *
+ *  Motion
+ *  Three kinds and no fourth: the opening screen settles once on load,
+ *  every block below it lifts as it is scrolled to, and the phone keeps
+ *  one slow loop of its own so a fee arrives while the page is being
+ *  read. Each rule here overrides a resting state that is already
+ *  correct on its own, so switching the motion off — which the block at
+ *  the foot of the file does for anyone who asks — leaves the page
+ *  whole rather than empty.
+ * ------------------------------------------------------------------ */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The receipt arrives the way a notification does: dropped in from above
+   the phone with a little more travel than it needs, held long enough to
+   be read twice, then let go. */
+@keyframes receipt-land {
+  0%,
+  5% {
+    opacity: 0;
+    transform: translate3d(-0.5rem, -1.4rem, 0) scale(0.92);
+  }
+  13% {
+    opacity: 1;
+    transform: translate3d(0, 0.3rem, 0) scale(1.02);
+  }
+  18%,
+  80% {
+    opacity: 1;
+    transform: none;
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -0.9rem, 0) scale(0.97);
+  }
+}
+
+/* The ring the rupee mark throws as the receipt lands. */
+@keyframes receipt-ping {
+  0%,
+  11% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  28%,
+  100% {
+    opacity: 0;
+    transform: scale(1.75);
+  }
+}
+
+/* Driven by the same beat as the receipt, so the panel answering the
+   notification reads as one event rather than two that coincide. */
+@keyframes collected-lift {
+  0%,
+  11%,
+  38%,
+  100% {
+    transform: none;
+    box-shadow: 0 0 0 0 rgba(22, 48, 42, 0);
+  }
+  17%,
+  29% {
+    transform: translateY(-2px);
+    box-shadow: 0 0.9em 1.6em -0.9em rgba(22, 48, 42, 0.8);
+  }
+}
+
+/* The class is minutes away, so the one button that starts it breathes. */
+@keyframes start-breathe {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 20, 15, 0.32);
+  }
+  65%,
+  100% {
+    box-shadow: 0 0 0 0.85em rgba(16, 20, 15, 0);
+  }
+}
+
+@keyframes dot-ping {
+  0% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(3.2);
+  }
+}
+
+@keyframes bar-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes closer-drift {
+  from {
+    transform: translate3d(-8%, -12%, 0);
+  }
+  to {
+    transform: translate3d(14%, 10%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* -- the opening screen, once ----------------------------------- */
+
+  /* Each line starts a beat after the one above it, in reading order,
+     and the phone comes up alongside the paragraph rather than last: it
+     is the proof of the claim, not an afterthought to it. */
+  .masthead__inner > *,
+  .hero__kicker,
+  .hero h1,
+  .hero .lede,
+  .hero__actions,
+  .hero__note,
+  .hero__visual {
+    animation: rise 760ms cubic-bezier(0.22, 0.72, 0.26, 1) backwards;
+  }
+
+  .masthead__inner > * {
+    animation-duration: 560ms;
+  }
+
+  .masthead__inner > :nth-child(2) {
+    animation-delay: 70ms;
+  }
+
+  .masthead__inner > :nth-child(3) {
+    animation-delay: 120ms;
+  }
+
+  .hero__kicker {
+    animation-delay: 90ms;
+  }
+
+  .hero h1 {
+    animation-delay: 170ms;
+  }
+
+  .hero .lede {
+    animation-delay: 260ms;
+  }
+
+  .hero__actions {
+    animation-delay: 350ms;
+  }
+
+  .hero__note {
+    animation-delay: 430ms;
+  }
+
+  .hero__visual {
+    animation-delay: 240ms;
+    animation-duration: 920ms;
+  }
+
+  /* The seat is still open, so the dot in front of the line keeps
+     sending. */
+  .hero__dot {
+    position: relative;
+  }
+
+  .hero__dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--color-brand);
+    animation: dot-ping 2.8s ease-out infinite;
+  }
+
+  /* -- the phone's own loop --------------------------------------- */
+
+  /* One beat for the whole device. Nine seconds is long enough that a
+     reader meets the receipt once, not three times. */
+  .stage {
+    --beat: 9s;
+  }
+
+  .receipt {
+    animation: receipt-land var(--beat) cubic-bezier(0.22, 0.72, 0.26, 1)
+      infinite;
+  }
+
+  .receipt__mark {
+    position: relative;
+  }
+
+  .receipt__mark::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 2px solid #e9a13b;
+    animation: receipt-ping var(--beat) ease-out infinite;
+  }
+
+  .phone__collected {
+    animation: collected-lift var(--beat) ease-in-out infinite;
+  }
+
+  .phone__start {
+    position: relative;
+  }
+
+  .phone__start::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    animation: start-breathe 3.4s ease-out infinite;
+  }
+
+  /* -- the closing field ------------------------------------------- */
+
+  /* A slow light moving behind the last ask, so the one green panel on
+     the page is not a flat rectangle. */
+  .closer {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .closer::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 26rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(140, 207, 174, 0.32),
+      transparent 64%
+    );
+    animation: closer-drift 15s ease-in-out infinite alternate;
+  }
+
+  /* -- as each block is scrolled to -------------------------------- */
+
+  /* Scroll-driven, so there is no observer to run and nothing to hydrate:
+     where the browser cannot do it, every block below simply starts in
+     its resting state, which is the state it ends in anyway. */
+  @supports (animation-timeline: view()) {
+    .compare-head,
+    .fees > div,
+    .hours__intro,
+    .hours__card,
+    .band--ink .section-head,
+    .spread > div,
+    .included-head,
+    .included > div,
+    .pricing__head,
+    .plan,
+    .price__list li,
+    .plans__note,
+    .faq__head,
+    .faq__list details {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 20%;
+    }
+
+    /* Siblings that enter on the same line are walked in by hand; the
+       rest stagger themselves by standing lower on the page. */
+    .spread > div:nth-child(2),
+    .included > div:nth-child(3n + 2),
+    .plan:nth-child(2),
+    .price__list li:nth-child(2n) {
+      animation-range: cover 0% cover 27%;
+    }
+
+    .included > div:nth-child(3n),
+    .plan:nth-child(3) {
+      animation-range: cover 0% cover 33%;
+    }
+
+    /* The last block on the page: the scroll ends with it, so it is
+       measured against its own entry rather than a cover range the page
+       runs out of road before reaching. */
+    .closer {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+
+    /* The rows run off a timeline named on the table. A table row is
+       not a box a view timeline can measure — left to find its own, the
+       last rows never finish — so the table keeps the one timeline and
+       the rows take their turn from it. */
+    .compare {
+      view-timeline-name: --rows;
+    }
+
+    .compare tbody tr {
+      animation: rise linear both;
+      animation-timeline: --rows;
+      animation-range: cover 4% cover 24%;
+    }
+
+    .compare tbody tr:nth-child(2) {
+      animation-range: cover 7% cover 27%;
+    }
+
+    .compare tbody tr:nth-child(3) {
+      animation-range: cover 10% cover 30%;
+    }
+
+    .compare tbody tr:nth-child(4) {
+      animation-range: cover 13% cover 33%;
+    }
+
+    .compare tbody tr:nth-child(5) {
+      animation-range: cover 16% cover 36%;
+    }
+
+    .compare tbody tr:nth-child(6) {
+      animation-range: cover 19% cover 39%;
+    }
+
+    /* The bars read against each other, so they fill together off one
+       timeline on the card rather than each off its own. */
+    .hours__card {
+      view-timeline-name: --bars;
+    }
+
+    .hours__list i::before {
+      transform-origin: left center;
+      animation: bar-grow linear both;
+      animation-timeline: --bars;
+      animation-range: cover 6% cover 30%;
+    }
+
+    .hours__list li:nth-child(2) i::before {
+      animation-range: cover 9% cover 33%;
+    }
+
+    .hours__list li:nth-child(3) i::before {
+      animation-range: cover 12% cover 36%;
+    }
+
+    .hours__list li:nth-child(4) i::before {
+      animation-range: cover 15% cover 39%;
+    }
+
+    .hours__list li:nth-child(5) i::before {
+      animation-range: cover 18% cover 42%;
+    }
+
+    /* The quiz is the one visual that is read line by line, so its
+       options come in the order a teacher would read them. */
+    .quiz {
+      view-timeline-name: --quiz;
+    }
+
+    .quiz__opts li {
+      animation: rise linear both;
+      animation-timeline: --quiz;
+      animation-range: cover 12% cover 32%;
+    }
+
+    .quiz__opts li:nth-child(2) {
+      animation-range: cover 15% cover 35%;
+    }
+
+    .quiz__opts li:nth-child(3) {
+      animation-range: cover 18% cover 38%;
+    }
+
+    .quiz__opts li:nth-child(4) {
+      animation-range: cover 21% cover 41%;
+    }
+  }
+
+  /* An answer that opens by growing into place rather than appearing at
+     full height, where the browser can measure it. */
+  @supports (interpolate-size: allow-keywords) and (selector(::details-content)) {
+    :root {
+      interpolate-size: allow-keywords;
+    }
+
+    .faq details::details-content {
+      block-size: 0;
+      overflow: hidden;
+      transition: block-size 260ms ease, content-visibility 260ms allow-discrete;
+    }
+
+    .faq details[open]::details-content {
+      block-size: auto;
+    }
+  }
+}
+
+/* The page under the pointer. These are transitions rather than
+   animations, so the reduced-motion block already damps them. */
+.included__icon {
+  transition: background-color 200ms ease, color 200ms ease,
+    transform 200ms ease;
+}
+
+.included > div:hover .included__icon {
+  background: rgba(10, 122, 87, 0.16);
+  transform: translateY(-2px);
+}
+
+.compare tbody tr {
+  transition: background-color 160ms ease;
+}
+
+.compare tbody tr:hover td {
+  background: color-mix(in srgb, var(--color-brand-wash) 60%, transparent);
+}
+
+/* The lift is set with `translate` rather than inside `transform`: the
+   reveal above ends holding `transform: none`, and a filling animation
+   outranks anything a hover could say about the same property. */
+.plan {
+  transition: translate 220ms ease, box-shadow 220ms ease,
+    border-color 220ms ease;
+}
+
+.plan:hover {
+  translate: 0 -4px;
+  box-shadow: 0 22px 46px -30px rgba(22, 48, 42, 0.5);
+}
+
+.plan[data-featured="true"]:hover {
+  box-shadow: 0 26px 52px -26px rgba(22, 48, 42, 0.5);
+}
+
+.faq summary {
+  transition: color 160ms ease;
+}
+
+.faq summary:hover {
+  color: var(--color-brand);
+}
+
+/* ------------------------------------------------------------------ *
  *  Reduced motion
  * ------------------------------------------------------------------ */
 
